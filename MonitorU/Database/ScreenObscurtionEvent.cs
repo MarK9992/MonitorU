@@ -15,10 +15,10 @@ namespace MonitorU.Database
     [Table]
     public class ScreenObscurtionEvent : INotifyPropertyChanged, INotifyPropertyChanging
     {
-        private long _eventId;
+        private int _eventId;
 
-        [Column(IsPrimaryKey = true, IsDbGenerated = true, DbType = "LONG NOT NULL Identity", CanBeNull = false, AutoSync = AutoSync.OnInsert)]
-        public long EventId
+        [Column(IsPrimaryKey = true, IsDbGenerated = true, DbType = "INT NOT NULL Identity", CanBeNull = false, AutoSync = AutoSync.OnInsert)]
+        public int EventId
         {
             get
             {
