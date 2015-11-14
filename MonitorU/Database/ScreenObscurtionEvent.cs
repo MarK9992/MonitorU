@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace MonitorU.Database
 {
-    enum Type { Obscurtion, Unobscurtion }
+    public enum EventType { Obscurtion, Unobscurtion }
 
     [Table]
     public class ScreenObscurtionEvent : INotifyPropertyChanged, INotifyPropertyChanging
@@ -35,10 +35,10 @@ namespace MonitorU.Database
             }
         }
 
-        private Type _type;
+        private EventType _type;
 
         [Column]
-        public Type Type
+        public EventType Type
         {
             get
             {
