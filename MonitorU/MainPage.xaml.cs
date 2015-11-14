@@ -16,7 +16,6 @@ namespace MonitorU
         // Constructeur
         public MainPage()
         {
-            System.Diagnostics.Debug.WriteLine("Hey, I just met you!");
             InitializeComponent();
 
             // Exemple de code pour la localisation d'ApplicationBar
@@ -36,7 +35,6 @@ namespace MonitorU
             PhoneApplicationFrame rootFrame = App.Current.RootVisual as PhoneApplicationFrame;
             if (rootFrame != null)
             {
-                System.Diagnostics.Debug.WriteLine("And this is craaaaazy!");
                 rootFrame.Obscured += OnObscured;
                 rootFrame.Unobscured += Unobscured;
             }
@@ -44,15 +42,14 @@ namespace MonitorU
 
         void OnObscured(Object sender, ObscuredEventArgs e)
         {
-            System.Diagnostics.Debug.WriteLine("Here's my number.");
             txtObs.Text = "Obscured at " + DateTime.Now.ToString();
         }
 
         void Unobscured(Object sender, EventArgs e)
         {
-            System.Diagnostics.Debug.WriteLine("So call me maybe!");
             txtUnobs.Text = "Unobscured at " + DateTime.Now.ToString();
         }
+
         // Exemple de code pour la conception d'une ApplicationBar localisée
         //private void BuildLocalizedApplicationBar()
         //{
