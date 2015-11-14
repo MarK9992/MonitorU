@@ -15,6 +15,8 @@ namespace MonitorU
 {
     public partial class MainPage : PhoneApplicationPage
     {
+        private bool _isScreenObscured;
+
         // Constructeur
         public MainPage()
         {
@@ -36,21 +38,39 @@ namespace MonitorU
             if (rootFrame != null)
             {
                 rootFrame.Obscured += OnObscured;
-                rootFrame.Unobscured += Unobscured;
+                //rootFrame.Unobscured += Unobscured; inutile ? voir plus bas
             }
+
+            _isScreenObscured = false;
             
             // Call the base method.
             base.OnNavigatedTo(e);
         }
 
+        // Obscured correspond à un appui sur le bouton lock screen, donc il représente également Unobscured quand l'écran était éteint.
         void OnObscured(Object sender, ObscuredEventArgs e)
         {
-            ScreenObscurtionEvent screenEvent = new ScreenObscurtionEvent { Type = Database.EventType.Obscurtion, Date = DateTime.Now };
+            ScreenObscurtionEvent screenEvent;
+            
+            if (_isScreenObscured)
+            {
+                screenEvent = new ScreenObscurtionEvent { Type = Database.EventType.Obscurtion, Date = DateTime.Now };
+                _isScreenObscured = false;
+                txtUnobs.Text = "Unobscured at " + DateTime.Now.ToString();
+                System.Diagnostics.Debug.WriteLine("Unobscured.");
+            }
+            else
+            {
+                screenEvent = new ScreenObscurtionEvent { Type = Database.EventType.Unobscurtion, Date = DateTime.Now };
+                _isScreenObscured = true;
+                txtObs.Text = "Obscured at " + DateTime.Now.ToString();
+                System.Diagnostics.Debug.WriteLine("Obscured.");
+            }
 
             App.DatabaseAccess.AddScreenObscurtionEvent(screenEvent);
-            txtObs.Text = "Obscured at " + DateTime.Now.ToString();
         }
 
+        /* Uboscured c'est quand on retourne sur l'application et non quand on allume l'écran.
         void Unobscured(Object sender, EventArgs e)
         {
             ScreenObscurtionEvent screenEvent = new ScreenObscurtionEvent { Type = Database.EventType.Unobscurtion, Date = DateTime.Now };
@@ -58,6 +78,7 @@ namespace MonitorU
             App.DatabaseAccess.AddScreenObscurtionEvent(screenEvent);
             txtUnobs.Text = "Unobscured at " + DateTime.Now.ToString();
         }
+        */
 
         // Exemple de code pour la conception d'une ApplicationBar localisée
         //private void BuildLocalizedApplicationBar()
