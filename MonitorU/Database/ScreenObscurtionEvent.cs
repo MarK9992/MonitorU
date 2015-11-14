@@ -13,7 +13,7 @@ namespace MonitorU.Database
     enum Type { Obscurtion, Unobscurtion }
 
     [Table]
-    class ScreenObscurtionEvent : INotifyPropertyChanged, INotifyPropertyChanging
+    public class ScreenObscurtionEvent : INotifyPropertyChanged, INotifyPropertyChanging
     {
         private long _eventId;
 
