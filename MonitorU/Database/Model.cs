@@ -10,6 +10,20 @@ using System.Threading.Tasks;
 
 namespace MonitorU.Database
 {
+    class MonitorUDataContext : DataContext
+    {
+        // Specify the connection string as a static, used in main page and app.xaml.
+        public static string DBConnectionString = "Data Source=isostore:/MonitorU.sdf";
+
+        // Pass the connection string to the base class.
+        public MonitorUDataContext(string connectionString)
+            : base(connectionString)
+        { }
+
+        // Specify a single table for the to-do items.
+        public Table<ScreenObscurtionEvent> ScreenObscurtionEvents;
+    }
+
     public enum EventType { Obscurtion, Unobscurtion }
 
     [Table]
