@@ -13,6 +13,8 @@ namespace MonitorU
 {
     public partial class MainPage : PhoneApplicationPage
     {
+        List<DateTime> list = new List<DateTime>();
+
         // Constructeur
         public MainPage()
         {
@@ -45,13 +47,13 @@ namespace MonitorU
         void OnObscured(Object sender, ObscuredEventArgs e)
         {
             System.Diagnostics.Debug.WriteLine("Here's my number.");
-            txtObs.Text = "Obscured at " + DateTime.Now.ToString();
+            list.Add(DateTime.Now);
         }
 
         void Unobscured(Object sender, EventArgs e)
         {
             System.Diagnostics.Debug.WriteLine("So call me maybe!");
-            txtUnobs.Text = "Unobscured at " + DateTime.Now.ToString();
+            list.Add(DateTime.Now);
         }
         // Exemple de code pour la conception d'une ApplicationBar localisée
         //private void BuildLocalizedApplicationBar()
