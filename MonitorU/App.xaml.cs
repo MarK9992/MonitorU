@@ -7,6 +7,7 @@ using System.Windows.Navigation;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 using MonitorU.Resources;
+using MonitorU.Database;
 
 namespace MonitorU
 {
@@ -17,6 +18,13 @@ namespace MonitorU
         /// </summary>
         /// <returns>Frame racine de l'application téléphonique.</returns>
         public static PhoneApplicationFrame RootFrame { get; private set; }
+
+        // The static DatabaseAccess, to be used across the application.
+        private static DatabaseAccess _databaseAccess;
+        public static DatabaseAccess DatabaseAccess
+        {
+            get { return _databaseAccess; }
+        }
 
         /// <summary>
         /// Constructeur pour l'objet Application.
@@ -53,10 +61,23 @@ namespace MonitorU
                 // Attention :- À utiliser uniquement en mode de débogage. Les applications qui désactivent la détection d'inactivité de l'utilisateur continueront de s'exécuter
                 // et seront alimentées par la batterie lorsque l'utilisateur ne se sert pas du téléphone.
                 PhoneApplicationService.Current.UserIdleDetectionMode = IdleDetectionMode.Disabled;
-
-
             }
 
+            // Create the database if it does not exist.
+            using (MonitorUDataContext db = new MonitorUDataContext(MonitorUDataContext.DBConnectionString))
+            {
+                if (db.DatabaseExists() == false)
+                {
+                    //Create the database
+                    db.CreateDatabase();
+                }
+            }
+
+            // Create the ViewModel object.
+            _databaseAccess = new DatabaseAccess(MonitorUDataContext.DBConnectionString);
+
+            // Query the local database and load observable collections.
+            _databaseAccess.LoadCollectionsFromDatabase();
         }
 
         // Code à exécuter lorsque l'application démarre (par exemple, à partir de Démarrer)

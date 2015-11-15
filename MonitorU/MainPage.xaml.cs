@@ -8,6 +8,7 @@ using System.Windows.Navigation;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 using MonitorU.Resources;
+using System.ComponentModel;
 using MonitorU.Database;
 
 namespace MonitorU
@@ -15,49 +16,80 @@ namespace MonitorU
     public partial class MainPage : PhoneApplicationPage
     {
         List<ScreenObscurtionEvent> list = new List<ScreenObscurtionEvent>();
+        private bool _isScreenObscured;
 
         // Constructeur
         public MainPage()
         {
             InitializeComponent();
 
+            // Set the page DataContext property to the DabaseAccess.
+            this.DataContext = App.DatabaseAccess;
+
             // Exemple de code pour la localisation d'ApplicationBar
             //BuildLocalizedApplicationBar();
-            
+
             PhoneApplicationService.Current.ApplicationIdleDetectionMode = IdleDetectionMode.Disabled;
-            PhoneApplicationFrame rootFrame = App.Current.RootVisual as PhoneApplicationFrame;
-            if (rootFrame != null)
-            {
-                rootFrame.Obscured += OnObscured;
-                rootFrame.Unobscured += Unobscured;
-            }
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             PhoneApplicationFrame rootFrame = App.Current.RootVisual as PhoneApplicationFrame;
+
             if (rootFrame != null)
             {
                 rootFrame.Obscured += OnObscured;
-                rootFrame.Unobscured += Unobscured;
+                //rootFrame.Unobscured += Unobscured; inutile ? voir plus bas
             }
+
+            _isScreenObscured = false;
+            
+            // Call the base method.
+            base.OnNavigatedTo(e);
         }
 
+        // Obscured correspond à un appui sur le bouton lock screen, donc il représente également Unobscured quand l'écran était éteint.
         void OnObscured(Object sender, ObscuredEventArgs e)
         {
             ScreenObscurtionEvent ob = new ScreenObscurtionEvent { Type = Database.Type.Obscurtion, Date = DateTime.Now };
-            //ScreenObscurtionEvent ob= new ScreenObscurtionEvent(1, Database.Type.Obscurtion, DateTime.Now);
             list.Add(ob);
             System.Diagnostics.Debug.WriteLine("ob");
+            ScreenObscurtionEvent screenEvent;
+            
+            if (_isScreenObscured)
+            {
+                screenEvent = new ScreenObscurtionEvent { Type = Database.EventType.Obscurtion, Date = DateTime.Now };
+                _isScreenObscured = false;
+                txtUnobs.Text = "Unobscured at " + DateTime.Now.ToString();
+                System.Diagnostics.Debug.WriteLine("Unobscured.");
+            }
+            else
+            {
+                screenEvent = new ScreenObscurtionEvent { Type = Database.EventType.Unobscurtion, Date = DateTime.Now };
+                _isScreenObscured = true;
+                txtObs.Text = "Obscured at " + DateTime.Now.ToString();
+                System.Diagnostics.Debug.WriteLine("Obscured.");
+            }
+
+            App.DatabaseAccess.AddScreenObscurtionEvent(screenEvent);
         }
 
+        /* Uboscured c'est quand on retourne sur l'application et non quand on allume l'écran.
         void Unobscured(Object sender, EventArgs e)
         {
+<<<<<<< HEAD
             ScreenObscurtionEvent unob = new ScreenObscurtionEvent { Type = Database.Type.Unobscurtion, Date = DateTime.Now };
             //ScreenObscurtionEvent unob = new ScreenObscurtionEvent(1, Database.Type.Obscurtion, DateTime.Now);
             list.Add(unob);
             System.Diagnostics.Debug.WriteLine("unob");
+=======
+            ScreenObscurtionEvent screenEvent = new ScreenObscurtionEvent { Type = Database.EventType.Unobscurtion, Date = DateTime.Now };
+
+            App.DatabaseAccess.AddScreenObscurtionEvent(screenEvent);
+            txtUnobs.Text = "Unobscured at " + DateTime.Now.ToString();
+>>>>>>> bd60c72beea55ff4eb96f67cc82dbd8389639e8b
         }
+        */
 
         // Exemple de code pour la conception d'une ApplicationBar localisée
         //private void BuildLocalizedApplicationBar()

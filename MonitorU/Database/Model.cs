@@ -10,15 +10,29 @@ using System.Threading.Tasks;
 
 namespace MonitorU.Database
 {
-    enum Type { Obscurtion, Unobscurtion }
+    class MonitorUDataContext : DataContext
+    {
+        // Specify the connection string as a static, used in main page and app.xaml.
+        public static string DBConnectionString = "Data Source=isostore:/MonitorU.sdf";
+
+        // Pass the connection string to the base class.
+        public MonitorUDataContext(string connectionString)
+            : base(connectionString)
+        { }
+
+        // Specify a single table for the to-do items.
+        public Table<ScreenObscurtionEvent> ScreenObscurtionEvents;
+    }
+
+    public enum EventType { Obscurtion, Unobscurtion }
 
     [Table]
-    class ScreenObscurtionEvent : INotifyPropertyChanged, INotifyPropertyChanging
+    public class ScreenObscurtionEvent : INotifyPropertyChanged, INotifyPropertyChanging
     {
-        private long _eventId;
+        private int _eventId;
 
-        [Column(IsPrimaryKey = true, IsDbGenerated = true, DbType = "LONG NOT NULL Identity", CanBeNull = false, AutoSync = AutoSync.OnInsert)]
-        public long EventId
+        [Column(IsPrimaryKey = true, IsDbGenerated = true, DbType = "INT NOT NULL Identity", CanBeNull = false, AutoSync = AutoSync.OnInsert)]
+        public int EventId
         {
             get
             {
@@ -35,10 +49,10 @@ namespace MonitorU.Database
             }
         }
 
-        private Type _type;
+        private EventType _type;
 
         [Column]
-        public Type Type
+        public EventType Type
         {
             get
             {
