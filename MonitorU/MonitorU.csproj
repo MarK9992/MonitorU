@@ -93,6 +93,9 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Database\DatabaseAccess.cs" />
+    <Compile Include="Database\ScreenObscurtionEvent.cs" />
+    <Compile Include="Kmeans.cs" />
     <Compile Include="LocalizedStrings.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
