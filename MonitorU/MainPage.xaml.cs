@@ -51,7 +51,7 @@ namespace MonitorU
         // Obscured correspond à un appui sur le bouton lock screen, donc il représente également Unobscured quand l'écran était éteint.
         void OnObscured(Object sender, ObscuredEventArgs e)
         {
-            ScreenObscurtionEvent ob = new ScreenObscurtionEvent { Type = Database.Type.Obscurtion, Date = DateTime.Now };
+            ScreenObscurtionEvent ob = new ScreenObscurtionEvent { Type = Database.EventType.Obscurtion, Date = DateTime.Now };
             list.Add(ob);
             System.Diagnostics.Debug.WriteLine("ob");
             ScreenObscurtionEvent screenEvent;
@@ -125,7 +125,7 @@ namespace MonitorU
                 {
                     // Si c'est un unobscured, on prend le obscured qui sui et on soustrait pour obtenir le temps passé
                     // sur le téléphone
-                    if (list[i].Type.Equals(Database.Type.Unobscurtion) && i < list.Count - 1)
+                    if (list[i].Type.Equals(Database.EventType.Unobscurtion) && i < list.Count - 1)
                     {
                         System.TimeSpan diff = list[i+1].Date.Subtract(list[i].Date);
                         diffs.Add((int)diff.TotalMinutes);
