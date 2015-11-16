@@ -97,7 +97,6 @@
     <Compile Include="Database\ScreenObscurtionEvent.cs" />
     <Compile Include="Kmeans.cs" />
     <Compile Include="Database\Model.cs" />
->>>>>>> bd60c72beea55ff4eb96f67cc82dbd8389639e8b
     <Compile Include="LocalizedStrings.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
