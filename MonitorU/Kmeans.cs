@@ -241,25 +241,25 @@ namespace MonitorU
             if (newLine) Console.WriteLine("\n");
         }
 
-        static String ShowClustered(int[][] data, int[] clustering, int numClusters, int decimals)
+        public static String ShowClustered(int[][] data, int[] clustering, int numClusters, int decimals)
         {
             String clustered="";
             for (int k = 0; k < numClusters; ++k)
             {
-                clustered="===================";
+                clustered+="===================\n";
                 for (int i = 0; i < data.Length; ++i)
                 {
                     int clusterID = clustering[i];
                     if (clusterID != k) continue;
-                    clustered = clustered + i.ToString().PadLeft(3) + " ";
+                    clustered = clustered + i.ToString().PadLeft(3) + "";
                     for (int j = 0; j < data[i].Length; ++j)
                     {
                         if (data[i][j] >= 0.0) clustered=clustered+" ";
-                        clustered = clustered + data[i][j].ToString("F" + decimals) + " ";
+                        clustered = clustered + data[i][j].ToString("F" + decimals) + "";
                     }
                     clustered = clustered + "";
                 }
-                clustered = clustered + "===================";
+                clustered = clustered + "\n===================\n";
             } // k
             return clustered;
         }

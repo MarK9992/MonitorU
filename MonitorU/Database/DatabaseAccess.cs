@@ -55,9 +55,13 @@ namespace MonitorU
             // Execute the query and place the results into a collection.
             Events = new ObservableCollection<ScreenObscurtionEvent>(eventsInDB);
 
-            foreach (ScreenObscurtionEvent screenEvent in Events)
+            if (Events.Count == 0)
             {
-                System.Diagnostics.Debug.WriteLine(screenEvent);
+                for (int i = 0; i < 7; i++)
+                {
+                    AddScreenObscurtionEvent(new ScreenObscurtionEvent { Type = EventType.Unobscurtion, Date = DateTime.Now.AddHours(-i * 10 - 5) });
+                    AddScreenObscurtionEvent(new ScreenObscurtionEvent { Type = EventType.Obscurtion, Date = DateTime.Now.AddHours(-i * 10 - 1) });
+                }
             }
         }
 

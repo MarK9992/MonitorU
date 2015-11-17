@@ -50,6 +50,8 @@
             <TextBlock Name="txtObs" Grid.Column="0" Margin="0,10,0,0" Grid.Row="2" Text="You did not obscured your screen yet!"/>
             <TextBlock Name="txtUnobs" Grid.Column="0" Margin="0,80,0,0" Grid.Row="2" Text="You did nont unobscured your screen yet!"/>
             <Button x:Name="button" Content="Voir clusters" HorizontalAlignment="Left" Margin="134,266,0,0" VerticalAlignment="Top" Height="77" Width="190" RenderTransformOrigin="0.614,-0.133" Click="listToData"/>
+
+            <TextBlock Name="kmeansResultTextBox" Text="..." Margin="9,343,0,-343" Style="{StaticResource PhoneTextTitle1Style}" FontSize="21.333"/>
         </Grid>
 
         <!--Supprimez les commentaires pour voir une grille d'alignement qui vous aidera à vous assurer que vos contrôles sont

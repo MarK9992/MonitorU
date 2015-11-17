@@ -114,6 +114,11 @@ namespace MonitorU
             //Ne sachant pas la taille finale du tableau, on range les infos utiles dans des listes
             List<int> diffs = new List<int>();
             List<int> plages = new List<int>();
+            List<ScreenObscurtionEvent> list = App.DatabaseAccess.Events.ToList();
+            foreach (ScreenObscurtionEvent screenEvent in list)
+            {
+                System.Diagnostics.Debug.WriteLine(screenEvent);
+            }
 
             if (list.Count == 0)
             {
@@ -142,6 +147,8 @@ namespace MonitorU
                         datas[j] = new int[] { diffs[j], plages[j] };
                     }
                     int[] clustering = Kmeans.Cluster(datas, 4);
+                    String clustered=Kmeans.ShowClustered(datas, clustering, 4, 1);
+                    kmeansResultTextBox.Text = clustered;
                 }
             }
         }
